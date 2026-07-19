@@ -37,8 +37,14 @@ function requireRole(array $allowedTypes): void
 {
     requireLogin();
     if (!in_array(getUserType(), $allowedTypes, true)) {
-        http_response_code(403);
-        die('لا تملك صلاحية الوصول لهذه الصفحة.');
+        require_once __DIR__ . '/error_page.php';
+        renderErrorPage(
+            403,
+            'غير مصرح لك بالدخول',
+            'حسابك الحالي لا يملك صلاحية الوصول لهذه الصفحة.',
+            loginRedirectPath(getUserType()),
+            'الذهاب للوحتي'
+        );
     }
 }
 

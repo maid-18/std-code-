@@ -1,0 +1,6 @@
+ErrorDocument 404 /404.php
+DirectoryIndex index.php
+
+<IfModule mod_php.c>
+    php_flag display_errors off
+</IfModule>
