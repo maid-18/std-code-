@@ -177,6 +177,55 @@ a { text-decoration: none; }
 .ftab:hover { background: #e2e8f0; color: #334155; }
 .ftab.active { background: var(--accent); color: #fff !important; border-color: var(--accent); }
 
+/* ── شارات الوحدات والمديرين/المشرفين (dept badges) ── */
+.badges-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.dept-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    min-width: 220px;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+    border: 5px solid #152238;
+    border-radius: 16px;
+    text-decoration: none;
+    direction: rtl;
+    transition: filter .15s ease;
+}
+
+.dept-badge:hover { filter: brightness(1.08); }
+
+.dept-badge__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.dept-badge__text {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: right;
+}
+
+.dept-badge--sm {
+    min-width: 0;
+    padding: 6px 14px;
+    border-width: 3px;
+    border-radius: 12px;
+}
+.dept-badge--sm .dept-badge__icon { font-size: 17px; }
+.dept-badge--sm .dept-badge__text { font-size: 12.5px; }
+
 @media print {
     .std-sidebar, .std-topbar, .no-print { display: none !important; }
     .std-main { width: 100%; }

@@ -53,9 +53,20 @@ function requireStudent(): void
     requireRole(['student']);
 }
 
+/** الإدارة العامة — ومدير النظام له نفس صلاحية الاطلاع والإدارة */
 function requireCareGuidanceAdmin(): void
 {
-    requireRole(['care_guidance_admin']);
+    requireRole(['care_guidance_admin', 'manager']);
+}
+
+function requireManager(): void
+{
+    requireRole(['manager']);
+}
+
+function requireUnitSupervisor(): void
+{
+    requireRole(['unit_supervisor']);
 }
 
 function loginUser(PDO $pdo, string $email, string $password): bool
@@ -76,6 +87,7 @@ function loginUser(PDO $pdo, string $email, string $password): bool
     session_regenerate_id(true);
     $_SESSION['user_id']       = $user['id'];
     $_SESSION['user_type']     = $user['user_type_title'];
+    $_SESSION['unit_type']     = $user['unit_type'];
     $_SESSION['full_name']     = $user['full_name'];
     $_SESSION['email']         = $user['email'];
     $_SESSION['profile_image'] = $user['profile_image'];
@@ -98,6 +110,7 @@ function logoutUser(): void
 function loginRedirectPath(string $userType): string
 {
     return match ($userType) {
+        'manager'             => '/manager/dashboard.php',
         'care_guidance_admin' => '/care_guidance_admin/dashboard.php',
         'unit_supervisor'     => '/supervisor/dashboard.php',
         'student'             => '/student/dashboard.php',

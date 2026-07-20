@@ -4,9 +4,11 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-requireCareGuidanceAdmin();
+requireRole(['care_guidance_admin', 'manager', 'unit_supervisor']);
 
-$redirectBase = '/care_guidance_admin/profile.php';
+$redirectBase = getUserType() === 'unit_supervisor'
+    ? '/supervisor/profile.php'
+    : '/care_guidance_admin/profile.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !verifyCsrfToken($_POST['csrf_token'] ?? null)) {
     header("Location: {$redirectBase}?msg=" . urlencode('طلب غير صالح.') . '&type=error');

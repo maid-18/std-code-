@@ -1,7 +1,17 @@
 <?php
+/**
+ * قالب رأس مشترك — الافتراضي: لوحة الإدارة العامة للرعاية والإرشاد.
+ * أي بوابة أخرى (مشرف وحدة / مدير النظام) تضبط قبل التضمين:
+ * $navItems, $navBase, $brandIcon, $brandTitle, $brandSub, $roleLabel, $portalAccent, $portalAccentDark
+ */
 $pageTitle = $pageTitle ?? 'الإدارة العامة للرعاية والإرشاد';
 $activePage = $activePage ?? basename($_SERVER['SCRIPT_NAME']);
-$navItems = [
+$navBase    = $navBase    ?? '/care_guidance_admin/';
+$brandIcon  = $brandIcon  ?? 'bi-shield-heart';
+$brandTitle = $brandTitle ?? 'الإدارة العامة';
+$brandSub   = $brandSub   ?? 'للرعاية والإرشاد';
+$roleLabel  = $roleLabel  ?? 'الإدارة العامة للرعاية والإرشاد';
+$navItems = $navItems ?? [
     'dashboard.php'       => ['icon' => 'bi-speedometer2',      'label' => 'لوحة التحكم'],
     'requests.php'        => ['icon' => 'bi-inbox-fill',        'label' => 'جميع الطلبات'],
     'reports.php'         => ['icon' => 'bi-file-earmark-bar-graph-fill', 'label' => 'التقارير'],
@@ -19,6 +29,15 @@ $navItems = [
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/assets/css/style.css" rel="stylesheet">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<?php if (!empty($portalAccent)): ?>
+<style>
+:root {
+    --primary: <?= $portalAccent ?>;
+    --primary-dark: <?= $portalAccentDark ?? $portalAccent ?>;
+    --accent: <?= $portalAccent ?>;
+}
+</style>
+<?php endif; ?>
 <?= $extraCss ?? '' ?>
 </head>
 <body>
@@ -26,15 +45,15 @@ $navItems = [
 <div class="std-shell">
     <aside class="std-sidebar">
         <div class="sidebar-brand">
-            <i class="bi bi-shield-heart"></i>
+            <i class="bi <?= $brandIcon ?>"></i>
             <div>
-                <div class="brand-title">الإدارة العامة</div>
-                <div class="brand-sub">للرعاية والإرشاد</div>
+                <div class="brand-title"><?= htmlspecialchars($brandTitle) ?></div>
+                <div class="brand-sub"><?= htmlspecialchars($brandSub) ?></div>
             </div>
         </div>
         <nav class="sidebar-nav">
             <?php foreach ($navItems as $file => $item): ?>
-                <a href="/care_guidance_admin/<?= $file ?>" class="nav-link <?= $activePage === $file ? 'active' : '' ?>">
+                <a href="<?= htmlspecialchars($item['href'] ?? $navBase . $file) ?>" class="nav-link <?= $activePage === $file ? 'active' : '' ?>">
                     <i class="bi <?= $item['icon'] ?>"></i>
                     <span><?= $item['label'] ?></span>
                 </a>
@@ -54,7 +73,7 @@ $navItems = [
             <div class="ms-auto d-flex align-items-center gap-3">
                 <div class="text-end">
                     <div class="fw-bold small"><?= htmlspecialchars($_SESSION['full_name'] ?? '') ?></div>
-                    <div class="text-muted" style="font-size:.72rem;">الإدارة العامة للرعاية والإرشاد</div>
+                    <div class="text-muted" style="font-size:.72rem;"><?= htmlspecialchars($roleLabel) ?></div>
                 </div>
                 <img src="<?= getUserAvatar($_SESSION['profile_image'] ?? null) ?>" class="topbar-avatar" alt="">
             </div>
